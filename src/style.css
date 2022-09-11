@@ -12,10 +12,18 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  margin: 0;
+  padding: 0;
 }
 
 .container {
   margin: 0;
+  padding: 0;
   padding-top: 10vh;
   display: flex;
   flex-direction: column;

@@ -1,37 +1,37 @@
 import type p5Type from "p5";
+import Bubble from "./bubble";
 
-let x = 50;
-let y = 50;
-
+let bubbles = [];
+let maxBubbles = 20;
 let resizeTimeout: NodeJS.Timeout;
 
-// let canvasSize =
-//   window.innerWidth > window.innerHeight
-//     ? window.innerHeight - 1
-//     : window.innerWidth;
-
-const resize = (p5: p5Type, canvasParentRef: Element) => {
-  p5.createCanvas(window.innerWidth, window.innerHeight, p5.WEBGL).parent(
-    canvasParentRef
-  );
+const resize = (p5: p5Type, canvasParentRef: Element, width, height) => {
+  p5.createCanvas(width, height).parent(canvasParentRef);
 };
 
 export const setup = (p5: p5Type, canvasParentRef: Element): void => {
-  p5.createCanvas(window.innerWidth, window.innerHeight, p5.WEBGL).parent(
-    canvasParentRef
-  );
+  let width = window.innerWidth;
+  let height = window.innerHeight;
+  p5.createCanvas(width, height).parent(canvasParentRef);
+
+  for (let i = 0; i < maxBubbles; i++) {
+    bubbles[i] = new Bubble(p5, width, height);
+  }
 
   window.addEventListener("resize", () => {
     clearTimeout(resizeTimeout);
 
-    resizeTimeout = setTimeout(() => resize(p5, canvasParentRef), 50);
+    resizeTimeout = setTimeout(
+      () => resize(p5, canvasParentRef, width, height),
+      50
+    );
   });
 };
 
 export const draw = (p5: p5Type): void => {
-  let canvasX = window.innerWidth;
-  let canvasY = window.innerHeight;
-  p5.background(0, 1);
-  p5.stroke(255, 0, 0);
-  p5.ellipse(canvasX / 2, -canvasY / 2, 500, 500);
+  p5.background(255, 20);
+  for (let i = 0; i < bubbles.length; i++) {
+    bubbles[i].move(p5);
+    bubbles[i].display(p5);
+  }
 };
